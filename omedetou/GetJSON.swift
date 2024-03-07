@@ -12,6 +12,6 @@ struct affirmationClass: Decodable, Identifiable {
     var content: String
 }
 
-let affirmations: [affirmationClass] = [affirmationClass(id: UUID(), content: "おめでとう"), affirmationClass(id: UUID(), content: "おめでたいな"), affirmationClass(id: UUID(), content: "Congratulations"), affirmationClass(id: UUID(), content: "Congrats"), affirmationClass(id: UUID(), content: "Thank you mother"), affirmationClass(id: UUID(), content: "Thank you father"), affirmationClass(id: UUID(), content: "Gratulacje"), affirmationClass(id: UUID(), content: "Gratuluje"), affirmationClass(id: UUID(), content: "Dzięki")]
+let affirmations: [affirmationClass] = [affirmationClass(id: UUID(), content: "おめでとう"), affirmationClass(id: UUID(), content: "おめでたいな"), affirmationClass(id: UUID(), content: "Congratulations"), affirmationClass(id: UUID(), content: "Congrats"), affirmationClass(id: UUID(), content: "Thank you mother"), affirmationClass(id: UUID(), content: "Thank you father"), affirmationClass(id: UUID(), content: "Gratulacje"), affirmationClass(id: UUID(), content: "Gratuluje")]
 
 let randomAffirmation = affirmations.randomElement()?.content

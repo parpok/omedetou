@@ -51,6 +51,7 @@ struct ContentView: View {
                 UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
                     if success {
                         os_log("User accepted notifications")
+                        notifyUser(affirmation: currentAffirmation)
                     } else if let error {
                         os_log("Something went wrong \(error.localizedDescription)")
                     }
