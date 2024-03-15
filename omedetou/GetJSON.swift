@@ -4,14 +4,38 @@
 //
 //  Created by Patryk Puciłowski on 01/03/2024.
 //
-// its not get json you baka. For now. at least. youre iterating over a fucking array
 import Foundation
+import OSLog
 
-struct affirmationClass: Decodable, Identifiable {
+struct affirmation: Decodable, Identifiable {
     var id: UUID
     var content: String
 }
 
-let affirmations: [affirmationClass] = [affirmationClass(id: UUID(), content: "おめでとう"), affirmationClass(id: UUID(), content: "おめでたいな"), affirmationClass(id: UUID(), content: "Congratulations"), affirmationClass(id: UUID(), content: "Congrats"), affirmationClass(id: UUID(), content: "Thank you mother"), affirmationClass(id: UUID(), content: "Thank you father"), affirmationClass(id: UUID(), content: "Gratulacje"), affirmationClass(id: UUID(), content: "Gratuluje")]
+func getAffirmationsFromServer() async throws -> [affirmation] {
+    let backendURL = "http://127.0.0.1:3000"
 
-let randomAffirmation = affirmations.randomElement()?.content
+    guard let url = URL(string: backendURL) else {
+        throw shitBreaking.urlFuckedUp
+    }
+
+    let (data, response) = try await URLSession.shared.data(from: url)
+
+    guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+        throw shitBreaking.requestFucked
+    }
+
+    do {
+        let decoder = JSONDecoder()
+        return try decoder.decode([affirmation].self, from: data)
+    } catch {
+        throw shitBreaking.dataFucked
+    }
+}
+
+enum shitBreaking: Error {
+    case urlFuckedUp
+    case requestFucked
+    case dataFucked
+    case idk
+}

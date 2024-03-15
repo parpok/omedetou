@@ -6,11 +6,12 @@ const crypto = require("crypto");
 const app = express();
 const port = 3000;
 class Item {
-  constructor(description, id = crypto.randomUUID()) {
+  constructor(content, id = crypto.randomUUID()) {
     this.id = id;
-    this.description = description;
-  }
+    this.content = content;
+  } 
 }
+// Change here so the frontend app sees this
 
 let affirmations = [
   "おめでとう",

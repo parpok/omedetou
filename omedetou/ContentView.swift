@@ -10,7 +10,7 @@ import SwiftUI
 import UserNotifications
 
 struct ContentView: View {
-    @State private var currentAffirmation: String = affirmations.randomElement()!.content
+    @State private var currentAffirmation: String?
     @State private var isAlertShown = false
     var body: some View {
         VStack {
@@ -24,7 +24,11 @@ struct ContentView: View {
                     .aspectRatio(contentMode: .fit)
 
                 Button(action: {
-                    currentAffirmation = affirmations.randomElement()!.content
+                    Task {
+                        currentAffirmation = try await
+                        getAffirmationsFromServer().randomElement()?.content
+                    }
+                    currentAffirmation = currentAffirmation
                     checkIfNotifsOn()
                 }, label: {
                     Text("Notify about affirmation everyday at 7AM")
@@ -39,7 +43,7 @@ struct ContentView: View {
                     )
                 }
                 Spacer()
-            }
+            }.navigationTitle("omedetou")
         }.padding()
         // https://youtu.be/hf1DkBQRQj4?si=ygJiuU3FAbYGv76o omedetou
     }
@@ -51,7 +55,7 @@ struct ContentView: View {
                 UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
                     if success {
                         os_log("User accepted notifications")
-                        notifyUser(affirmation: currentAffirmation)
+                        notifyUser(affirmation: currentAffirmation ?? "Shit fucked up")
                     } else if let error {
                         os_log("Something went wrong \(error.localizedDescription)")
                     }
@@ -61,11 +65,11 @@ struct ContentView: View {
                 os_log("Bro has notifs off")
             case .authorized:
                 os_log("Notifications are ON")
-                notifyUser(affirmation: currentAffirmation)
+                notifyUser(affirmation: currentAffirmation ?? "Shit fucked up")
 
             case .provisional:
                 os_log("Notifications are kinda ON")
-                notifyUser(affirmation: currentAffirmation)
+                notifyUser(affirmation: currentAffirmation ?? "Shit fucked up")
 
             case .ephemeral:
                 os_log("Wait is that an app clip")
