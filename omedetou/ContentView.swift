@@ -12,6 +12,10 @@ import UserNotifications
 struct ContentView: View {
     @State private var currentAffirmation: String?
     @State private var isAlertShown = false
+    @State private var notificationTime = Date.now
+
+    private var dateFormatter = DateFormatter()
+
     var body: some View {
         VStack {
             NavigationStack {
@@ -23,15 +27,17 @@ struct ContentView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
 
+                DatePicker("Wen notifs?", selection: $notificationTime, displayedComponents: [.hourAndMinute]).datePickerStyle(.graphical)
+
                 Button(action: {
                     Task {
                         currentAffirmation = try await
-                        getAffirmationsFromServer().randomElement()?.content
+                            getAffirmationsFromServer().randomElement()?.content
                     }
                     currentAffirmation = currentAffirmation
                     checkIfNotifsOn()
                 }, label: {
-                    Text("Notify about affirmation everyday at 7AM")
+                    Text("Notify about affirmation tommorow at \(notificationTime.formatted(date: .omitted, time: .shortened))")
                 }).buttonStyle(.borderedProminent).alert(isPresented: $isAlertShown) {
                     Alert(
                         title: Text("Notifications are off"),
@@ -43,9 +49,38 @@ struct ContentView: View {
                     )
                 }
                 Spacer()
+
+//                Text(currentAffirmation ?? "IDK")
             }.navigationTitle("omedetou")
         }.padding()
         // https://youtu.be/hf1DkBQRQj4?si=ygJiuU3FAbYGv76o omedetou
+    }
+
+    func notifyUser(affirmation: String) {
+        let notification = UNMutableNotificationContent()
+        notification.title = "Here's your affirmation"
+        notification.subtitle = affirmation
+        notification.sound = .default
+
+        var dateComponents = Calendar.current.dateComponents([.year, .month, .day], from: notificationTime)
+
+        // Ensure the date is for tomorrow
+        dateComponents.day = 1 // Adding 1 day sets date to tomorrow
+
+        // Extract hour from notificationTime
+        let hour = Calendar.current.component(.hour, from: notificationTime)
+
+        dateComponents.hour = hour
+
+        let trigger = UNCalendarNotificationTrigger(
+            dateMatching: dateComponents, repeats: false)
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: notification, trigger: trigger)
+
+        let notificationCenter = UNUserNotificationCenter.current()
+        do {
+            notificationCenter.add(request)
+            os_log("Notify about affirmation tommorow at \(notificationTime.formatted(date: .omitted, time: .shortened))")
+        }
     }
 
     func checkIfNotifsOn() {

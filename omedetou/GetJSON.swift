@@ -13,7 +13,7 @@ struct affirmation: Decodable, Identifiable {
 }
 
 func getAffirmationsFromServer() async throws -> [affirmation] {
-    let backendURL = "http://127.0.0.1:3000"
+    let backendURL = "https://omedetoubackend.fly.dev/"
 
     guard let url = URL(string: backendURL) else {
         throw shitBreaking.urlFuckedUp

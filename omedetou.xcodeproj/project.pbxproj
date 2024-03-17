@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8B079A742B95D1390012DCF0 /* NotificationStuff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B079A732B95D1390012DCF0 /* NotificationStuff.swift */; };
 		8B191FE02B91D0BE00277C0C /* GetJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B191FDF2B91D0BE00277C0C /* GetJSON.swift */; };
 		8BE369B02B9147CC00D501B2 /* omedetouApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE369AF2B9147CC00D501B2 /* omedetouApp.swift */; };
 		8BE369B22B9147CC00D501B2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE369B12B9147CC00D501B2 /* ContentView.swift */; };
@@ -36,7 +35,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8B079A732B95D1390012DCF0 /* NotificationStuff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationStuff.swift; sourceTree = "<group>"; };
 		8B191FDF2B91D0BE00277C0C /* GetJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetJSON.swift; sourceTree = "<group>"; };
 		8BE369AC2B9147CC00D501B2 /* omedetou.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = omedetou.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BE369AF2B9147CC00D501B2 /* omedetouApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = omedetouApp.swift; sourceTree = "<group>"; };
@@ -100,7 +98,6 @@
 			children = (
 				8BE369AF2B9147CC00D501B2 /* omedetouApp.swift */,
 				8BE369B12B9147CC00D501B2 /* ContentView.swift */,
-				8B079A732B95D1390012DCF0 /* NotificationStuff.swift */,
 				8B191FDF2B91D0BE00277C0C /* GetJSON.swift */,
 				8BE369B32B9147CD00D501B2 /* Assets.xcassets */,
 				8BE369B52B9147CD00D501B2 /* Preview Content */,
@@ -264,7 +261,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B191FE02B91D0BE00277C0C /* GetJSON.swift in Sources */,
-				8B079A742B95D1390012DCF0 /* NotificationStuff.swift in Sources */,
 				8BE369B22B9147CC00D501B2 /* ContentView.swift in Sources */,
 				8BE369B02B9147CC00D501B2 /* omedetouApp.swift in Sources */,
 			);
