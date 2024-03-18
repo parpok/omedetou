@@ -12,7 +12,7 @@ import UserNotifications
 struct ContentView: View {
     @State private var currentAffirmation: String?
     @State private var isAlertShown = false
-    @State private var notificationTime = Date.now
+    @State private var notificationDate: Date = Date.now
 
     private var dateFormatter = DateFormatter()
 
@@ -26,8 +26,8 @@ struct ContentView: View {
                 Image(.omedetou)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-
-                DatePicker("Wen notifs?", selection: $notificationTime, displayedComponents: [.hourAndMinute]).datePickerStyle(.graphical)
+                
+                DatePicker("When notif", selection: $notificationDate, displayedComponents: .hourAndMinute)
 
                 Button(action: {
                     Task {
@@ -37,7 +37,7 @@ struct ContentView: View {
                     currentAffirmation = currentAffirmation
                     checkIfNotifsOn()
                 }, label: {
-                    Text("Notify about affirmation tommorow at \(notificationTime.formatted(date: .omitted, time: .shortened))")
+                    Text("Notify about affirmation everyday at \(notificationDate.formatted(date: .omitted, time: .shortened))")
                 }).buttonStyle(.borderedProminent).alert(isPresented: $isAlertShown) {
                     Alert(
                         title: Text("Notifications are off"),
@@ -61,25 +61,19 @@ struct ContentView: View {
         notification.title = "Here's your affirmation"
         notification.subtitle = affirmation
         notification.sound = .default
+        
+        let components = Calendar.current.dateComponents([.hour, .minute], from: notificationDate)
 
-        var dateComponents = Calendar.current.dateComponents([.year, .month, .day], from: notificationTime)
-
-        // Ensure the date is for tomorrow
-        dateComponents.day = 1 // Adding 1 day sets date to tomorrow
-
-        // Extract hour from notificationTime
-        let hour = Calendar.current.component(.hour, from: notificationTime)
-
-        dateComponents.hour = hour
-
+            
         let trigger = UNCalendarNotificationTrigger(
-            dateMatching: dateComponents, repeats: false)
+            dateMatching: components, repeats: true)
+
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: notification, trigger: trigger)
 
         let notificationCenter = UNUserNotificationCenter.current()
         do {
             notificationCenter.add(request)
-            os_log("Notify about affirmation tommorow at \(notificationTime.formatted(date: .omitted, time: .shortened))")
+            os_log("notifying user every day at \(notificationDate.description)")
         }
     }
 
